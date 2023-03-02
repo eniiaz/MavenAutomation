@@ -1,15 +1,18 @@
-package tests;
+package cashwise;
 
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Cashwise {
 
@@ -62,7 +65,7 @@ public class Cashwise {
 
     @Test
     public void signUpDropdownVerification(){
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new FirefoxDriver();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
         driver.get("https://cashwise.us");
@@ -98,6 +101,66 @@ public class Cashwise {
             String optionText = option.getText();
             Assertions.assertTrue(expectedOptions.contains(optionText), "Failed: " + optionText);
         }
+    }
+
+
+    @Test
+    public void signUpSuccessfully() throws InterruptedException {
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
+        driver.get("https://cashwise.us");
+        WebElement signUpButton = driver.findElement(By.xpath("(//button)[2]"));
+        signUpButton.click();
+
+        List<WebElement> inputBoxes = driver.findElements(By.xpath("//form[@id='register-form-1']//input"));
+
+        // Here we need to come up with dynamic emails
+        Faker faker = new Faker();
+        String email = faker.internet().emailAddress();
+        System.out.println("Email: " + email);
+
+        inputBoxes.get(0).sendKeys(email);
+        inputBoxes.get(1).sendKeys("Tester");
+        inputBoxes.get(2).sendKeys("Tester");
+
+        WebElement continueButton = driver.findElement(By.xpath("//form[@id='register-form-1']/../button"));
+        continueButton.click();
+
+        List<WebElement> signUpInfoList = driver.findElements(By.xpath("//form[@id='register-form-2']//input"));
+        signUpInfoList.get(0).sendKeys(faker.name().firstName());
+        signUpInfoList.get(1).sendKeys(faker.name().lastName());
+        String companyName = faker.company().name();
+        System.out.println("Company: " + companyName);
+        signUpInfoList.get(2).sendKeys(companyName);
+
+        WebElement areaOfBusiness = driver.findElement(By.id("mui-component-select-business_area_id"));
+        areaOfBusiness.click();
+
+        List<WebElement> areaOfBusinessList = driver.findElements(By.xpath("//ul/li"));
+        Random random = new Random();
+        int index = random.nextInt(areaOfBusinessList.size());
+        areaOfBusinessList.get(index).click();
+
+        signUpInfoList.get(4).sendKeys(faker.address().fullAddress());
+
+        driver.findElement(By.id("mui-component-select-currency")).click();
+        List<WebElement> currencyList = driver.findElements(By.xpath("//ul/li"));
+        int indexForCurrency = random.nextInt(currencyList.size());
+        currencyList.get(indexForCurrency).click();
+        Thread.sleep(1000);
+
+        driver.findElement(By.xpath("(//button)[5]")).click();
+
+        Thread.sleep(2000);
+
+        String url = driver.getCurrentUrl();
+        String expectedURL = "https://cashwise.us/dashboard/infographics";
+        Assertions.assertEquals(expectedURL, url, "Sign up URL failed");
+
+        WebElement header = driver.findElement(By.xpath("//header[@id='header']//h2"));
+        Assertions.assertEquals(companyName, header.getText().trim(), "Header company name failed after sign up");
+
     }
 
 

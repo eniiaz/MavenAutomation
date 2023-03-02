@@ -11,6 +11,9 @@ import java.util.List;
 
 public class Accounting {
 
+    //automation@codewise.com
+    // Password
+
     @Test
     public void signUp() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
