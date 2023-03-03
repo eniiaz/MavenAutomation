@@ -4,13 +4,12 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
 import java.time.Duration;
 
 public class Driver {
 
    private static WebDriver driver;
-   private static String browser = "firefox";
+   private static String browser = "chrome";
 
     public static WebDriver getDriver(){
         if (driver == null){
