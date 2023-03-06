@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import utilities.Flow;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class Cashwise {
 
     @Test
     public void verifyLoginNegative() throws InterruptedException {
+
+        Flow.wait(500);
+
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
