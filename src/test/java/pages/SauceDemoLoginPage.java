@@ -1,39 +1,29 @@
-package sauceDemo;
+package pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
 import utilities.Driver;
 
-public class SauceDemoHomepage {
+public class SauceDemoLoginPage {
 
-    public SauceDemoHomepage(){
+    public SauceDemoLoginPage(){
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
     @FindBy(id = "user-name")
     public WebElement usernameInputBox;
 
-    @FindBy(id = "password")
+    @FindBy(id="password")
     public WebElement passwordInputBox;
 
     @FindBy(id = "login-button")
-    public WebElement loginButton;
-
-    @FindBy(xpath = "//select[@class='product_sort_container']")
-    public WebElement sortDropdown;
-
+    public WebElement loginBtn;
 
     public void login(String username, String password){
         usernameInputBox.sendKeys(username);
         passwordInputBox.sendKeys(password);
-        loginButton.click();
-    }
-
-    public void selectSortOption(String visibleText){
-        Select sort = new Select(sortDropdown);
-        sort.selectByVisibleText(visibleText);
+        loginBtn.click();
     }
 
 

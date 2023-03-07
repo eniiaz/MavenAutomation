@@ -48,13 +48,7 @@ public class SauceTwitter {
 
     }
 
-    @Test
-    public void tester(){
-        Driver.getDriver().get("https://saucedemo.com");
-        SauceDemoHomepage sdh = new SauceDemoHomepage();
-        sdh.login("standard_user", "secret_sauce");
-        sdh.selectSortOption("Price (low to high)");
-    }
+
 
 
 }
