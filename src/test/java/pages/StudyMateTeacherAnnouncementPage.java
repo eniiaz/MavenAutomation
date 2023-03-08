@@ -37,6 +37,16 @@ public class StudyMateTeacherAnnouncementPage {
     @FindBy(xpath = "//p[.='pagination.show']/../p[2]")
     public WebElement totalResult;
 
+    @FindBy(xpath = "((//div/header)[2]/..//div/span)[1]")
+    public WebElement firstAnnouncementStatus;
+
+    @FindBy(xpath = "(//button)[2]")
+    public WebElement getFirstAnnouncementOptionsBtn;
+
+    @FindBy(xpath = "(//ul)[2]/li")
+    public List<WebElement> announcementOptions;
+
+
     public int getTotalAnnouncements(){
         String totalResultStr = totalResult.getText();
         String totalNumberStr = totalResultStr.substring(totalResultStr.indexOf(" ")+1);
